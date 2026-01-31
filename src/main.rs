@@ -123,7 +123,7 @@ fn parse_headers(values: &[String]) -> Result<HeaderMap, String> {
 }
 
 fn build_client(http2: bool, url: &Url) -> Result<reqwest::Client, String> {
-    let mut builder = reqwest::Client::builder()
+    let builder = reqwest::Client::builder()
         .tcp_nodelay(true)
         .pool_max_idle_per_host(usize::MAX);
 
@@ -136,8 +136,7 @@ fn build_client(http2: bool, url: &Url) -> Result<reqwest::Client, String> {
     builder.build().map_err(|e| format!("client build failed: {e}"))
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
+fn main() {
     let args = Args::parse();
 
     let duration = match parse_duration(&args.duration) {
